@@ -8,17 +8,17 @@ mov cx, 0
 ;The data portion of the program. Must be skipped.
 ;If not, it will be read as code.
 jmp skipdata
-GAME_WIDTH dw 30
-GAME_HEIGHT dw 20
+GAME_WIDTH dw 60
+GAME_HEIGHT dw 40
 
 ;The ball is an object stored in this array
 ;The format is: xPos, yPos, xVel, yVel, Size, newX, newY
 ;WARNING: If you change x/y, you must change newX/Y too
-BALL dw 10,10,2,1,1,10,10
+BALL dw 17,17,5,4,2,17,17
 
 ;The paddle is stored as an object in this array
 ;The format is: xPos, yPos, Speed, Length, newX, newY
-PAD dw 5,8,3,4,5,8
+PAD dw 5,14,7,11,5,14
 skipdata:
 
 
@@ -255,15 +255,14 @@ mov ah, 1
 int 16h    ;Check for character in keyboard buffer
 jz donePU  ;Do nothing if no input
 
-mov ax, 0
-int 16h    ;Get character
-
 ;Target character list
 ;UP arrow:    4800h
 ;DOWN arrow:  5000h
+mov ax, 0
+int 16h    ;Get character from keyboard buffer
 
 cmp al, 00h
-je donePU
+jne donePU
 cmp ah, 48h
 je UP
 cmp ah, 50h
@@ -341,7 +340,7 @@ mov ax, BALL[12]
 mov bx, ax
 add bx, BALL[8]
 dec bx ;Because the ball's size is absolute and includes the origin xPos
-mov cx, PAD[2]
+mov cx, PAD[10]
 cmp ax, cx
 jg nextC          ;Now, check for both y1 and y2 being under the pad's yPos
 cmp bx, cx
