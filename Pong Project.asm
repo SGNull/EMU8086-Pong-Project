@@ -1,3 +1,5 @@
+;Made by Devin Konrad
+
 ;Interrupt 10h is the graphics interrupt
 ;It allows for the plotting of pixels if ah=0ch
 ;It must first be configured with ax=0013h
